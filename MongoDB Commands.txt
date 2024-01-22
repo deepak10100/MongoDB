@@ -1,0 +1,212 @@
+mongos commands
+___________________________________________________________________________________________
+
+PS D:\WEBSITE DEVELOPMENT\MongoDB> mongosh  -> mongose shell chalu krne ke liye
+Current Mongosh Log ID: 65ae0645f530564c4b8323a2
+Connecting to:          mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+2.1.1
+Using MongoDB:          7.0.5
+Using Mongosh:          2.1.1
+
+For mongosh info see: https://docs.mongodb.com/mongodb-shell/
+
+------
+   The server generated these startup warnings when booting
+   2024-01-22T01:30:36.032+05:30: Access control is not enabled for the database. Read and write access to data and configuration is unrestricted
+------
+
+test> show dbs -> sare database dekhne ke liye
+6bp     120.00 KiB
+admin    40.00 KiB
+config   72.00 KiB
+local    40.00 KiB
+test> use 6bp
+switched to db 6bp
+6bp> exit
+PS D:\WEBSITE DEVELOPMENT\MongoDB> mongosh
+Current Mongosh Log ID: 65ae0693c73be709d1ef88fa
+Connecting to:          mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+2.1.1
+Using MongoDB:          7.0.5
+Using Mongosh:          2.1.1
+
+For mongosh info see: https://docs.mongodb.com/mongodb-shell/
+
+------
+   The server generated these startup warnings when booting
+   2024-01-22T01:30:36.032+05:30: Access control is not enabled for the database. Read and write access to data and configuration is unrestricted
+------
+
+test> use 7dbs -> database main switch krne ke liye/ database create krne ke liye
+switched to db 7dbs
+7dbs> exit
+PS D:\WEBSITE DEVELOPMENT\MongoDB> mongosh
+Current Mongosh Log ID: 65ae06d9281cb3ecdd12e774
+Connecting to:          mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+2.1.1
+Using MongoDB:          7.0.5
+Using Mongosh:          2.1.1
+
+For mongosh info see: https://docs.mongodb.com/mongodb-shell/
+
+------
+   The server generated these startup warnings when booting
+   2024-01-22T01:30:36.032+05:30: Access control is not enabled for the database. Read and write access to data and configuration is unrestricted
+------
+
+test> show dbs
+6bp     120.00 KiB
+admin    40.00 KiB
+config   72.00 KiB
+local    40.00 KiB
+test> use 7dbs
+switched to db 7dbs
+7dbs> db.person1.insertOne({name:"deepak"})
+{
+  acknowledged: true,
+  insertedId: ObjectId('65ae071a281cb3ecdd12e775')
+}
+7dbs> show collections -> database ke collections dekhne ke liye
+person1
+7dbs> exit
+PS D:\WEBSITE DEVELOPMENT\MongoDB> ls
+PS D:\WEBSITE DEVELOPMENT\MongoDB> mongosh
+Current Mongosh Log ID: 65ae07352a50f45f65045ad3
+Connecting to:          mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+2.1.1
+Using MongoDB:          7.0.5
+Using Mongosh:          2.1.1
+
+For mongosh info see: https://docs.mongodb.com/mongodb-shell/
+
+------
+   The server generated these startup warnings when booting
+   2024-01-22T01:30:36.032+05:30: Access control is not enabled for the database. Read and write access to data and configuration is unrestricted
+------
+
+test> show dbs
+6bp     120.00 KiB
+7dbs      8.00 KiB
+admin    40.00 KiB
+config   72.00 KiB
+local    40.00 KiB
+test> use 7dbs
+switched to db 7dbs
+7dbs> show collection
+MongoshInvalidInputError: [COMMON-10001] 'collection' is not a valid argument for "show".
+7dbs> show collections
+person1
+7dbs> db.person1.find()
+[ { _id: ObjectId('65ae071a281cb3ecdd12e775'), name: 'deepak' } ]
+7dbs> db.person1.insertMany({name:"deepak",name:"amann", name:"deepu"})
+MongoInvalidArgumentError: Argument "docs" must be an array of documents
+7dbs> db.person1.insertMany([{name:"deepak",name:"amann", name:"deepu"}])
+{
+  acknowledged: true,
+  insertedIds: { '0': ObjectId('65ae07e72a50f45f65045ad4') }
+}
+7dbs> show collections
+person1
+7dbs> db.person1.find() ->saare product dekhne ke liye
+[
+  { _id: ObjectId('65ae071a281cb3ecdd12e775'), name: 'deepak' },
+  { _id: ObjectId('65ae07e72a50f45f65045ad4'), name: 'deepu' }
+]
+
+7dbs> db.person1.find({name:'deepak'}) -> name se product dundne ke liye
+[ { _id: ObjectId('65ae071a281cb3ecdd12e775'), name: 'deepak' } ]
+7dbs> db.person1.insertMany([{name:'deepak'},{name:'arun'},{name:'deepak'}])
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId('65ae09122a50f45f65045ad5'),
+    '1': ObjectId('65ae09122a50f45f65045ad6'),
+    '2': ObjectId('65ae09122a50f45f65045ad7')
+  }
+}
+7dbs> db.person1.find() 
+[
+  { _id: ObjectId('65ae071a281cb3ecdd12e775'), name: 'deepak' },
+  { _id: ObjectId('65ae07e72a50f45f65045ad4'), name: 'deepu' },
+  { _id: ObjectId('65ae09122a50f45f65045ad5'), name: 'deepak' },
+  { _id: ObjectId('65ae09122a50f45f65045ad6'), name: 'arun' },
+  { _id: ObjectId('65ae09122a50f45f65045ad7'), name: 'deepak' }
+]
+7dbs> db.person1.find({name:'deepak'}) 
+[
+  { _id: ObjectId('65ae071a281cb3ecdd12e775'), name: 'deepak' },
+  { _id: ObjectId('65ae09122a50f45f65045ad5'), name: 'deepak' },
+  { _id: ObjectId('65ae09122a50f45f65045ad7'), name: 'deepak' }
+]
+7dbs> db.person1.find({name:'deepak'}).limit(2) -> name se only 2 product dekhne ke liye
+[
+  { _id: ObjectId('65ae071a281cb3ecdd12e775'), name: 'deepak' },
+  { _id: ObjectId('65ae09122a50f45f65045ad5'), name: 'deepak' }
+]
+7dbs> db.person1.findOne({name:'deepak'})
+{ _id: ObjectId('65ae071a281cb3ecdd12e775'), name: 'deepak' }
+7dbs> db.person1.findOne()
+{ _id: ObjectId('65ae071a281cb3ecdd12e775'), name: 'deepak' }
+7dbs> db.person1.find()
+[
+  { _id: ObjectId('65ae071a281cb3ecdd12e775'), name: 'deepak' },
+  { _id: ObjectId('65ae07e72a50f45f65045ad4'), name: 'deepu' },
+  { _id: ObjectId('65ae09122a50f45f65045ad5'), name: 'deepak' },
+  { _id: ObjectId('65ae09122a50f45f65045ad6'), name: 'arun' },
+  { _id: ObjectId('65ae09122a50f45f65045ad7'), name: 'deepak' }
+]
+7dbs> db.person1.updateOne({name:"deepak"},{$set:{name:'deepak malakar'}}) -> phela product update ke liye
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+7dbs> db.person1.find()
+[
+  { _id: ObjectId('65ae071a281cb3ecdd12e775'), name: 'deepak malakar' },
+  { _id: ObjectId('65ae07e72a50f45f65045ad4'), name: 'deepu' },
+  { _id: ObjectId('65ae09122a50f45f65045ad5'), name: 'deepak' },
+  { _id: ObjectId('65ae09122a50f45f65045ad6'), name: 'arun' },
+  { _id: ObjectId('65ae09122a50f45f65045ad7'), name: 'deepak' }
+]
+7dbs> db.person1.updateMany({name:"deepak"},{$set:{name:'deepak malakar'}})-> sare product update ke liye
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 2,
+  modifiedCount: 2,
+  upsertedCount: 0
+}
+7dbs> db.person1.find()
+[
+  { _id: ObjectId('65ae071a281cb3ecdd12e775'), name: 'deepak malakar' },
+  { _id: ObjectId('65ae07e72a50f45f65045ad4'), name: 'deepu' },
+  { _id: ObjectId('65ae09122a50f45f65045ad5'), name: 'deepak malakar' },
+  { _id: ObjectId('65ae09122a50f45f65045ad6'), name: 'arun' },
+  { _id: ObjectId('65ae09122a50f45f65045ad7'), name: 'deepak malakar' }
+]
+7dbs> db.person1.deleteOne({name:"deepak malakar"}) -> "deepak malakar" name jaisa ek delete krne ke liye
+{ acknowledged: true, deletedCount: 1 }
+7dbs> db.person1.find()
+[
+  { _id: ObjectId('65ae07e72a50f45f65045ad4'), name: 'deepu' },
+  { _id: ObjectId('65ae09122a50f45f65045ad5'), name: 'deepak malakar' },
+  { _id: ObjectId('65ae09122a50f45f65045ad6'), name: 'arun' },
+  { _id: ObjectId('65ae09122a50f45f65045ad7'), name: 'deepak malakar' }
+]
+7dbs> db.person1.deleteMany({name:"deepak malakar"}) -> "deepak malakar" name jaisa  sare delete krne ke liye
+{ acknowledged: true, deletedCount: 2 }
+7dbs> db.person1.find()
+[
+  { _id: ObjectId('65ae07e72a50f45f65045ad4'), name: 'deepu' },
+  { _id: ObjectId('65ae09122a50f45f65045ad6'), name: 'arun' }
+]
+7dbs> db.person1.deleteMany({}) all product delete krne ke liye
+{ acknowledged: true, deletedCount: 2 }
+7dbs> show collection
+MongoshInvalidInputError: [COMMON-10001] 'collection' is not a valid argument for "show".
+7dbs> show collections
+person1
+7dbs> db.person1.find()
+
+7dbs> show collections
+person1
+7dbs>
